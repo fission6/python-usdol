@@ -1,4 +1,14 @@
 ==============
+DOL Python Wrapper for SummerJobs+ data access
+==============
+
+-----
+Usage
+-----
+
+check test.py, need to undo hardcoded query in SummerJobsConnection
+
+==============
 Python-USDOL
 ==============
 
