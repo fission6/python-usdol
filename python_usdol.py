@@ -162,6 +162,7 @@ class Connection(object):
             fmt = 'xml'
     
         urlstr = self._get_request(qs, fmt)
+        print urlstr
         data = urllib2.urlopen(urlstr)
         if fmt == 'json':
             res = data.read()
