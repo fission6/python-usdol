@@ -3,4 +3,6 @@ usdol_secret.py
 *.pyc
 scratch.py
 \#.*\#
+dump*
+example.py
 MANIFEST

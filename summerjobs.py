@@ -4,10 +4,10 @@ import json
 class SummerJobsConnection(Connection):
 
 
-    def _get_request(self, qs='', fmt='json'):
+    def _get_request(self, qs='', fmt='json', query='', skipCount=0):
         url_args = [USDOL_URL, API_VER, self.dataset, self.table]
         qs = {
-            'query' : "'Nurse'",
+            'query' : "'{}'".format(query),
             'skipCount' : 1,
         }
         qs = '?' + urlencode(qs)
@@ -21,7 +21,7 @@ class SummerJobsConnection(Connection):
         return req
 
 
-    def fetch_data(self, dataset, table='$metadata', fmt='json', top=0, skip=0, select='', orderby='', filter_=''):
+    def fetch_data(self, dataset, table='$metadata', fmt='json', query='', top=0, skip=0, skipCount=0, select='', orderby='', filter_=''):
         """
         fetch_data(dataset, table[, fmt, top, skip, select, orderby]) ->
         
@@ -35,7 +35,7 @@ class SummerJobsConnection(Connection):
         
         """
             
-        qs = self._get_querystring(top=top, skip=skip, select=select,
+        qs = self._get_querystring(top=top, skip=skip, select=select, query=query, skipCount=0,
                                    orderby=orderby, filter_=filter_)
         self.dataset = dataset
         self.table = table
@@ -45,13 +45,19 @@ class SummerJobsConnection(Connection):
         if table == '$metadata' and fmt != 'xml':
             fmt = 'xml'
     
-        urlstr = self._get_request(qs, fmt)
+        urlstr = self._get_request(qs, fmt, query=query, skipCount=skipCount)
         data = urllib2.urlopen(urlstr)
-        print "Data"
         json_string = data.read()
-        json_data = json.loads(json_string)
-        listings = json_data['d']['getJobsListing']
-        listings_data = json.loads(listings)
 
-        return listings_data
+        json_data = json.loads(json_string)
+
+        
+        positions = json_data.get('d').get('getJobsListing')
+
+        positions = json.loads(positions)
+        positions = json.loads(positions)
+
+
+        return positions
+
         
